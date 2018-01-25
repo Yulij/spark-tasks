@@ -1,0 +1,24 @@
+csv ~ 42 Mb 1 000 000 rows
+Read time from file: stuff.parquet - 2107 ms
+----------------
+Read time from file: stuff.csv - 3758 ms
+----------------
+Read time from file: stuff.csv - 3783 ms
+Read time from file: stuff.parquet - 349 ms
+----------------
+Read time from file: stuff.parquet - 2139 ms
+Read time from file: stuff.csv - 1842 ms
+
+csv ~ 84 Mb 2 000 000 rows
+Read time from file: stuff.parquet - 2009 ms
+----------------
+Read time from file: stuff.csv - 4456 ms
+----------------
+Read time from file: stuff.csv - 4043 ms
+Read time from file: stuff.parquet - 348 ms
+----------------
+Read time from file: stuff.parquet - 2062 ms
+Read time from file: stuff.csv - 2177 ms
+----------------
+Write time to stuff.csv 14222 ms
+Write time to stuff.parquet 17553 ms overhead = 23%
