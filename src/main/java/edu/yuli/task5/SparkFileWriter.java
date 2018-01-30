@@ -18,7 +18,6 @@ import edu.yuli.task5.utils.StuffGenerator;
  */
 public class SparkFileWriter {
     public static void main(String[] args) {
-        System.setProperty("hadoop.home.dir", "C:/hadoop");
 //        writeData(2_000_000);
         readDataFromFile();
     }

@@ -1,11 +1,13 @@
 package edu.yuli.task6;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.stat.Statistics;
 import org.apache.spark.mllib.stat.test.ChiSqTestResult;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Encoder;
+import org.apache.spark.sql.Encoders;
 
 import edu.yuli.spark.utils.SparkSessionUtil;
 
@@ -19,15 +21,20 @@ public class StudentRankDemo {
     private static final int STUDENTS_COUNT = 1000;
 
     public static void main(String[] args) throws InterruptedException {
-        System.setProperty("hadoop.home.dir", "C:/hadoop");
         List<Student> students = StudentGenerator.generateStudents(STUDENTS_COUNT);
-        students.forEach(System.out::println);
 
-        List<Double> ranks = students.stream()
-                .map(Student::getRank)
-                .collect(Collectors.toList());
+        Encoder<Student> studentEncoder = Encoders.bean(Student.class);
+        Dataset<Student> studentsDs = SparkSessionUtil.getSession().createDataset(
+                students,
+                studentEncoder
+        );
 
-        Vector rankFrequencies = StatisticsUtils.getFrequencyVector(ranks);
+        Encoder<Double> stringEncoder = Encoders.DOUBLE();
+        Dataset<Double> ranksDf = studentsDs.map(
+                Student::getRank,
+                stringEncoder);
+
+        Vector rankFrequencies = StatisticsUtils.getFrequencyVector(ranksDf.collectAsList());
         Vector theoreticalRankFrequencies = StatisticsUtils.getTheoreticalFrequenciesVector(STUDENTS_COUNT);
         ChiSqTestResult testResult = Statistics.chiSqTest(rankFrequencies, theoreticalRankFrequencies);
         SparkSessionUtil.closeContext();

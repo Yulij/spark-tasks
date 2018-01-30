@@ -14,6 +14,10 @@ public class SparkSessionUtil {
 
     private static JavaSparkContext context;
 
+    static {
+        System.setProperty("hadoop.home.dir", "C:/hadoop");
+    }
+
     public static SparkSession getSession() {
         return getSession("Yuli's Ranking Spark App");
     }
