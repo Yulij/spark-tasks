@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.spark.api.java.JavaDoubleRDD;
 import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.linalg.Vectors;
+import org.apache.spark.sql.Dataset;
 
 import edu.yuli.spark.utils.SparkSessionUtil;
 
@@ -53,9 +54,9 @@ public class StatisticsUtils {
         return normal.take(valuesCount);
     }
 
-    public static Vector getFrequencyVector(List<Double> values) {
+    public static Vector getFrequencyVector(Dataset<Double> values) {
         double[] frequencies = new double[INTERVAL_COUNT];
-        values.forEach(value -> {
+        values.foreach(value -> {
             if (value > MIN_SCORE && value < MAX_SCORE) {
                 int index = (int) ((value - MIN_SCORE) / SCORE_INTERVAL);
                 frequencies[index] = frequencies[index] + 1;

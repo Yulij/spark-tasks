@@ -34,7 +34,7 @@ public class StudentRankDemo {
                 Student::getRank,
                 stringEncoder);
 
-        Vector rankFrequencies = StatisticsUtils.getFrequencyVector(ranksDf.collectAsList());
+        Vector rankFrequencies = StatisticsUtils.getFrequencyVector(ranksDf);
         Vector theoreticalRankFrequencies = StatisticsUtils.getTheoreticalFrequenciesVector(STUDENTS_COUNT);
         ChiSqTestResult testResult = Statistics.chiSqTest(rankFrequencies, theoreticalRankFrequencies);
         SparkSessionUtil.closeContext();
